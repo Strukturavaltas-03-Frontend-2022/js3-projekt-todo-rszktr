@@ -20,6 +20,11 @@ setInterval(showCurrentTime, 1000)
 let pendingToWorkWith = 0;
 let completeToWorkWith = 0;
 
+const savedObject = {
+  id: 0,
+  value: 0
+}
+
 const getPendingFromStorage = () => {
   if (JSON.parse(localStorage.getItem('pending')) === null) {
     pendingToWorkWith = [];
@@ -109,6 +114,7 @@ const clearAll = () => {
   pendingListContainer.innerText = ''
 
   pendingToWorkWith = [];
+  completeToWorkWith = [];
   updateEverything();
 }
 
@@ -120,8 +126,10 @@ const buttonSwitchComplete = document.querySelector('.switch')
 
 const hideComplete = () => {
   completeSection.innerText = ''
-  buttonSwitchComplete.innerHTML = 'Show Complete'
 
+  buttonSwitchComplete.innerHTML = 'Show Complete'
+  buttonSwitchComplete.classList.remove('hide__complete')
+  buttonSwitchComplete.classList.add('show__complete')
   buttonSwitchComplete.removeEventListener('click', hideComplete)
   buttonSwitchComplete.addEventListener('click', showComplete)
 }
@@ -134,8 +142,15 @@ const showComplete = () => {
   writeCompleteHeader();
 
   buttonSwitchComplete.innerHTML = 'Hide Complete'
+  buttonSwitchComplete.classList.remove('show__complete')
+  buttonSwitchComplete.classList.add('hide__complete')
   buttonSwitchComplete.removeEventListener('click', showComplete)
   buttonSwitchComplete.addEventListener('click', hideComplete)
+}
+
+const switchBetweenShowAndHide = () => {
+  buttonSwitchComplete.innerHTML === 'Show Complete'
+    ? showComplete() : hideComplete()
 }
 
 buttonSwitchComplete.addEventListener('click', showComplete)
@@ -226,6 +241,21 @@ const startUpPendingSection = () => {
 
 startUpPendingSection();
 
+const thingsToDo = [
+  'Pay the bills',
+  'Call the accountant',
+  'Buy the medicine',
+  'Do the laundry',
+  'Do the dishes',
+  `Don't forget the anniversary`,
+  'Buy cat food',
+  'Bring a towel',
+  `Don't panic`,
+  'Replace the batteries',
+  'Got Milk?',
+  'Call Mom'
+]
+
 const submitNewPending = () => {
   if (text.value === '') {
     text.placeholder = `You need to write something first.`
@@ -234,12 +264,20 @@ const submitNewPending = () => {
     addToPendingSection([pendingToWorkWith.length - 1]);
     updateEverything();
     activateTrashListener();
-    activateCheckMarkListener();
+    resetCheckMarkListener();
     text.value = '';
+    text.placeholder = thingsToDo[Math.floor(Math.random() * thingsToDo.length)]
   }
 }
 
 buttonSubmit.addEventListener('click', submitNewPending)
+
+text.addEventListener("keypress", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    submitNewPending();
+  }
+});
 
 
 // Elemek törlése, teljesítése
@@ -257,17 +295,29 @@ const activateCheckMarkListener = () => {
   })
 };
 
+const removeCheckMarkListener = () => {
+  const checkMarks = pendingListContainer.querySelectorAll('.checkmark')
+  checkMarks.forEach(item => item.removeEventListener('click', completeItem))
+}
+
+const resetCheckMarkListener = () => {
+  removeCheckMarkListener();
+  activateCheckMarkListener();
+}
+
 activateTrashListener();
 activateCheckMarkListener();
 
 const removeItemFromPendingArray = (element) => {
   let textToFind = element.parentElement.previousElementSibling.innerHTML;
-  pendingToWorkWith = pendingToWorkWith.filter(item => item !== textToFind)
+  let index = pendingToWorkWith.findIndex(item => item === textToFind);
+  pendingToWorkWith.splice(index, 1);
 }
 
 const completeItemFromPendingArray = (element) => {
   let textToFind = element.parentElement.nextElementSibling.innerHTML;
-  pendingToWorkWith = pendingToWorkWith.filter(item => item !== textToFind)
+  let index = pendingToWorkWith.findIndex(item => item === textToFind);
+  pendingToWorkWith.splice(index, 1);
   return textToFind
 }
 
@@ -290,14 +340,10 @@ function removeItem() {
 
 
 // Elem teljesítése
-
 function completeItem() {
   let textFromPending = completeItemFromPendingArray(this)
   addNewItemToArray(completeToWorkWith, textFromPending);
   hideItem(this);
   updateEverything();
-
-  if (completeSection.innerText !== '') {
-    addToCompleteSection([completeToWorkWith.length - 1])
-  }
+  addToCompleteSection([completeToWorkWith.length - 1])
 }

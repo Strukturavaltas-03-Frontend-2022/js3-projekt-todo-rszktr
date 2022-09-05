@@ -1,3 +1,15 @@
+## v1.0
+
+### Elkészült:
+- Enter leütésével is lehet feladatot elküldeni
+- Fejléc
+- Clear All az elvégzett teendőket is törli
+- Változó placeholder szövegek
+- Utolsó utáni pillanatban realizált bug: Ha két pending elem karakterre pontosan egyezik, akkor a filter metódussal mindkettő törlődik a tárolóból, de nem a listából. Ez csúnya 
+eltérésekhez vezethet. Gyorstapaszként a művelet lecserélve findIndex, splice párosra.
+- Meg még egy: A Show/Hide Complete gomb clearAll után elállíthatódott, de javítva.
+
+
 ## v0.95
 
 ### Elkészült:
