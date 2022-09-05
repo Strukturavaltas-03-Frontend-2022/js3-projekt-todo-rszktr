@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+<body>
+    <main class="todo__container">
+        <section class="date__top"></section>
+        <section class="date__bottom"></section>
+        <section class="input">
+            <input type="text" class="input__text" placeholder="Take the garbage out">
+            <button class="submit">+</button>
+        </section>
+        <section class="pending">
+            <div class="header pending"></div>
+            <div class="list__pending">
+            </div>
+        </section>
+        <img src="./img/chill.png" alt="nyugivan" class="chill-pic hide">
+        <div class="no-todos hide">Time to chill! You have no todos.</div>
+        <section class="complete">
+        </section>
+        <section class="control__bottom">
+            <button class="switch">Show Complete</button>
+            <button class="clear">Clear All</button>
+        </section>
+    </main>
+    <script src="./js/main.js"></script>
+    <script src="https://kit.fontawesome.com/6469965956.js" crossorigin="anonymous"></script>
+</body>
+
+</html>
