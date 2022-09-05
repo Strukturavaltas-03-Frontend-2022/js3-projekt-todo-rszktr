@@ -1,3 +1,10 @@
+## v1.01
+
+### Elkészült:
+- ClearAll-t követő ShowComplete után az első teljesítés nem hozta fel a százalékos
+kiírást, csak másodjára. Elképzelhető, hogy eddig is néha rossz értéket mutatott emiatt.
+
+
 ## v1.0
 
 ### Elkészült:

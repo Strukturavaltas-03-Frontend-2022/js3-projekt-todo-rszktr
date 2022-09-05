@@ -345,5 +345,8 @@ function completeItem() {
   addNewItemToArray(completeToWorkWith, textFromPending);
   hideItem(this);
   updateEverything();
-  addToCompleteSection([completeToWorkWith.length - 1])
+  if (buttonSwitchComplete.classList.contains('hide__complete')) {
+    addToCompleteSection([completeToWorkWith.length - 1])
+  }
+  writeCompleteHeader();
 }
